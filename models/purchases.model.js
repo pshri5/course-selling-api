@@ -12,3 +12,6 @@ const purchaseSchema = new Schema({
         ref: User 
     }
 },{timestamps:true})
+
+
+export const Purchase = mongoose.model("Purchase",purchaseSchema)
