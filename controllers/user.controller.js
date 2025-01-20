@@ -58,7 +58,8 @@ res.cookie("refreshToken",refreshToken,{
 
 res.status(200).json({
     _id: user._id,
-    name: user.name,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     accessToken,
     message: "login Successful"
