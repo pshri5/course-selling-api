@@ -1,4 +1,5 @@
 import { Course } from "../models/course.model";
+import { ApiResponse } from "../utils/apiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 
 //create course
@@ -14,11 +15,7 @@ export const createCourse = asyncHandler(async(req,res)=>{
         creatorId: req.admin._id
     })
 
-    return res.status(200).json({
-        status: true,
-        message: "Course created successfully",
-        course
-    })
+    return res.status(200).json(new ApiResponse(200,course,"Course created successfully"))
 })
 //get course
 export const getCourse = asyncHandler(async(req,res)=>{
@@ -28,11 +25,7 @@ export const getCourse = asyncHandler(async(req,res)=>{
         _id: courseID,
         creatorId: req.admin._id,
     })
-    return res.status(200).json({
-        status: true,
-        course,
-        message: "Course retrieved successfully"
-    })
+    return res.status(200).json(new ApiResponse(200,course,"Courses retrieved successfully"))
 }) 
 
 //update course
@@ -43,15 +36,11 @@ export const updateCourse = asyncHandler(async(req,res)=>{
         _id: courseID,
         adminID: req.admin._id
     },{
-        $set:{content}
+        $set:{title,description,price}
     },{
         new: true
     })
-    return res.status(200).json({
-        status: true,
-        newCourse,
-        message: "Course updated successfully"
-    })
+    return res.status(200).json(new ApiResponse(200,newCourse,"Course updated successfully"))
 })
 
 //delete course
@@ -61,8 +50,5 @@ export const deleteCourse = asyncHandler(async(req,res)=>{
         _id: courseID,
         adminID: req.admin._id
     })
-    res.status(200).json({
-        staus: true,
-        message:"Course deleted successfully"
-    })
+    res.status(200).json(new ApiResponse(200,{},"Course deleted successfully"))
 })

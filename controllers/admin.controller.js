@@ -1,6 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler";
 import { Admin } from "../models/admin.model";
 import bcrypt from "bcrypt"
+import { ApiResponse } from "../utils/apiResponse";
 
 
 
@@ -22,6 +23,8 @@ const registerAdmin = asyncHandler(async(req,res)=>{
             email,
             password
         })
+
+        res.status(200).json(new ApiResponse(200,admin,"Admin registered successfully"))
 
     } catch (error) {
         throw new Error("Signup failed")
@@ -54,14 +57,7 @@ const loginAdmin = asyncHandler(async(req,res)=>{
             maxAge: 3 * 24 * 60 * 60 * 1000 //3days
         })
         
-        res.status(200).json({
-            _id: admin._id,
-            firstName: admin.firstName,
-            lastName: admin.lastName,
-            email: admin.email,
-            accessToken,
-            message: "login Successful"
-        })
+        res.status(200).json(new ApiResponse(200,admin,"Admin logged in successfully"))
 
 
     } catch (error) {

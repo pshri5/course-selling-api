@@ -3,6 +3,7 @@ import {User} from "../models/user.model"
 import bcrypt from "bcrypt"
 import { Purchase } from "../models/purchases.model"
 import { Course } from "../models/course.model"
+import { ApiResponse } from "../utils/apiResponse"
 
 
 //Register user
@@ -24,10 +25,7 @@ const registerUser = asyncHandler(async(req,res)=>{
         password: hashedPassword
     })
     if (user) {
-        res.status(201).json({
-            success: true,
-            message: "User is registered"
-        })
+        res.status(201).json(new ApiResponse(200,registerUser,"User registered successfully"))
     }
 })
 //login user
@@ -56,14 +54,7 @@ res.cookie("refreshToken",refreshToken,{
     maxAge: 3 * 24 * 60 * 60 * 1000 //3days
 })
 
-res.status(200).json({
-    _id: user._id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    accessToken,
-    message: "login Successful"
-})
+res.status(200).json(new ApiResponse(200,loginUser,"User logged in successfully"))
 })
 //show all purchased courses
 const purchasedCourses = asyncHandler(async(req,res)=>{
@@ -78,10 +69,7 @@ const purchasedCourses = asyncHandler(async(req,res)=>{
     const coursesData = await Course.find({
         _id: {$in:purchasedCoursesID} //find courses whose ID are in the array
     })
-    res.status(200).json({
-        purchases,
-        coursesData
-    })
+    res.status(200).json(new ApiResponse(200,purchasedCourses,"Courses retrived successfully"))
 
 })
 
